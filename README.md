@@ -11,20 +11,20 @@ This is a Flutter plugin that can:
 3. Be used to modify a single color.
 
 The main idea is for you to (temporarily) wrap your `ColorScheme()` into a `colorBlindnessColorScheme()` with a `ColorBlindnessType` as the secondary parameter.
-Doing so, it will emulate color blindness by modifying **ALL** ColorScheme colors.
+Doing so, it will simulate color blindness by modifying **ALL** ColorScheme colors.
 Then, you may change the type parameter and hot refresh/restart the app to see how it looks under different eyes.
 
 The interactive sample allows you to see how it works:
 
 <a href="https://bernaferrari.github.io/ColorBlindnessFlutter/"><img src="assets/try_here.png" height="50"/></a>
 
-[![Random Color Scheme](assets/sample_preview.png)](https://bernaferrari.github.io/ColorBlindnessFlutter/)
+[![Color Blindness on Flutter sample](assets/sample_preview.png)](https://bernaferrari.github.io/ColorBlindnessFlutter/)
 
 ## Usage
 
 In the `pubspec.yaml` of your flutter project, add the following dependency:
 
-[![pub package](https://img.shields.io/pub/v/color_blindness.svg)](https://pub.dev/packages/color_blindness_color_scheme)
+[![pub package](https://img.shields.io/pub/v/color_blindness.svg)](https://pub.dev/packages/color_blindness)
 
 ```yaml
 dependencies:
