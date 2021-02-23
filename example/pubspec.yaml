@@ -14,9 +14,9 @@ dependencies:
     sdk: flutter
 
   url_launcher: ^5.5.0
-  hsluv: ^1.0.5
+  hsluv: ^1.1.0
   flutter_feather_icons: ^1.0.3
-  random_color_scheme: ^0.0.2
+  random_color_scheme: ^0.1.0
   color_blindness:
     path: ../
 

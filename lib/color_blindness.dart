@@ -45,13 +45,7 @@ Color colorBlindness(Color color, ColorBlindnessType type) {
 
 /// Converted to Dart from: https://github.com/jordidekock/Colorblinds
 
-/// Type of color blindness.
-///
-/// - Deuteranomaly: Malfunctioning M-cone (green).
-/// - Deuteranopia: Missing. M-cone (green).
-/// - Protanomaly: Malfunctioning L-cone (red).
-/// - Protanopia: Missing L-cone (red).
-
+/// Malfunctioning green.
 Color deuteranomaly(Color color) {
   final double r = (color.red * 0.80) + (color.green * 0.20) + (color.blue * 0);
   final double g =
@@ -62,6 +56,7 @@ Color deuteranomaly(Color color) {
   return Color.fromARGB(255, r.round(), g.round(), b.round());
 }
 
+/// Missing red.
 Color protanopia(Color color) {
   final double r =
       (color.red * 0.56667) + (color.green * 0.43333) + (color.blue * 0);
@@ -73,6 +68,7 @@ Color protanopia(Color color) {
   return Color.fromARGB(255, r.round(), g.round(), b.round());
 }
 
+/// Missing green.
 Color deuteranopia(Color color) {
   final double r =
       (color.red * 0.625) + (color.green * 0.375) + (color.blue * 0);
@@ -82,6 +78,7 @@ Color deuteranopia(Color color) {
   return Color.fromARGB(255, r.round(), g.round(), b.round());
 }
 
+/// Malfunctioning red.
 Color protanomaly(Color color) {
   final double r =
       (color.red * 0.81667) + (color.green * 0.18333) + (color.blue * 0);
@@ -93,6 +90,7 @@ Color protanomaly(Color color) {
   return Color.fromARGB(255, r.round(), g.round(), b.round());
 }
 
+/// Missing blue.
 Color tritanopia(Color color) {
   final double r = (color.red * 0.95) + (color.green * 0.05) + (color.blue * 0);
   final double g =
@@ -103,6 +101,7 @@ Color tritanopia(Color color) {
   return Color.fromARGB(255, r.round(), g.round(), b.round());
 }
 
+/// Malfunctioning blue.
 Color tritanomaly(Color color) {
   final double r =
       (color.red * 0.9667) + (color.green * 0.033) + (color.blue * 0);
@@ -114,6 +113,7 @@ Color tritanomaly(Color color) {
   return Color.fromARGB(255, r.round(), g.round(), b.round());
 }
 
+/// Less severe form of total color blind (monochromatic).
 Color achromatomaly(Color color) {
   final double r =
       (color.red * 0.618) + (color.green * 0.32) + (color.blue * 0.062);
@@ -125,6 +125,7 @@ Color achromatomaly(Color color) {
   return Color.fromARGB(255, r.round(), g.round(), b.round());
 }
 
+/// Totally color blind (monochromatic).
 Color achromatopsia(Color color) {
   final double r =
       (color.red * 0.299) + (color.green * 0.587) + (color.blue * 0.114);

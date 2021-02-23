@@ -1,5 +1,3 @@
-library random_color_scheme;
-
 import 'package:flutter/material.dart';
 
 import 'color_blindness.dart';

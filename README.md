@@ -1,4 +1,4 @@
-![Image of Color Blindness on Flutter](assets/readme.png)
+![Image of Color Blindness on Flutter](https://github.com/bernaferrari/ColorBlindnessFlutter/raw/main/assets/readme.png)
 
 # Color Blindness on Flutter
 
@@ -16,9 +16,9 @@ Then, you may change the type parameter and hot refresh/restart the app to see h
 
 The interactive sample allows you to see how it works:
 
-<a href="https://bernaferrari.github.io/ColorBlindnessFlutter/"><img src="assets/try_here.png" height="50"/></a>
+<a href="https://bernaferrari.github.io/ColorBlindnessFlutter/"><img src="https://github.com/bernaferrari/ColorBlindnessFlutter/raw/main/assets/try_here.png" height="50"/></a>
 
-[![Color Blindness on Flutter sample](assets/sample_preview.png)](https://bernaferrari.github.io/ColorBlindnessFlutter/)
+[![Color Blindness on Flutter sample](https://github.com/bernaferrari/ColorBlindnessFlutter/raw/main/assets/sample_preview.png)](https://bernaferrari.github.io/ColorBlindnessFlutter/)
 
 ## Usage
 

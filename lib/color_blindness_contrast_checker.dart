@@ -1,5 +1,3 @@
-library random_color_scheme;
-
 import 'dart:math';
 
 import 'package:flutter/material.dart';
@@ -25,7 +23,12 @@ void colorBlindnessAssertContrast(ColorScheme scheme,
   for (ColorBlindnessType type in ColorBlindnessType.values) {
     final updatedScheme = colorBlindnessColorScheme(scheme, type);
 
-    void calculate({Color aColor, Color bColor, String aStr, String bStr}) {
+    void calculate({
+      required Color aColor,
+      required Color bColor,
+      required String aStr,
+      required String bStr,
+    }) {
       final contrast = _calculateContrast(aColor, bColor);
       if (contrast < minThreshold) {
         throw Exception(
