@@ -2,7 +2,6 @@ import 'package:color_blindness/color_blindness.dart';
 import 'package:color_blindness/color_blindness_color_scheme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:random_color_scheme/random_color_scheme.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -21,7 +20,7 @@ class MyApp extends StatelessWidget {
       home: RefreshableHome(),
       theme: ThemeData(
         colorScheme: ColorScheme.light(
-          primary: Color(0xff54120A),
+          primary: Color(0xffC2410C),
         ),
       ),
     );
@@ -42,17 +41,17 @@ class RefreshableHome extends StatelessWidget {
         actions: [
           IconButton(
             icon: Icon(
-              FeatherIcons.github,
+              Icons.code_rounded,
               color: Colors.black,
             ),
-            tooltip: "GitHub",
+            tooltip: "Source",
             onPressed: () async {
               await launch(
                   "https://github.com/bernaferrari/ColorBlindnessFlutter");
             },
           )
         ],
-        elevation: 0,
+        elevation: 0.0,
       ),
     );
   }
@@ -68,7 +67,7 @@ class _ThemeScreenState extends State<ThemeScreen> {
   ColorBlindnessType typeSelected = ColorBlindnessType.none;
   int seed = 0;
 
-  Theme customTheme({Widget child, int i, bool isDark}) {
+  Theme customThemeChild({required int i, required bool isDark}) {
     return Theme(
       data: ThemeData(
         colorScheme: colorBlindnessColorScheme(
@@ -83,7 +82,7 @@ class _ThemeScreenState extends State<ThemeScreen> {
           ),
         ),
         cardTheme: CardTheme(
-          elevation: 0,
+          elevation: 0.0,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(8.0),
           ),
@@ -138,10 +137,11 @@ class _ThemeScreenState extends State<ThemeScreen> {
         child: Column(
           children: [
             Card(
-              elevation: 0,
+              elevation: 0.0,
+              color: Color(0xffFFF7ED),
               shape: RoundedRectangleBorder(
-                side: BorderSide(width: 2, color: Color(0xff083EA7)),
-                borderRadius: BorderRadius.circular(8),
+                side: BorderSide(width: 2.0, color: Color(0xffFED7AA)),
+                borderRadius: BorderRadius.circular(8.0),
               ),
               child: Padding(
                 padding: const EdgeInsets.all(16.0),
@@ -159,7 +159,9 @@ The idea is for you to plug colorBlindnessColorScheme() into your apps.""",
             ),
             Text(
               typesToStr(),
-              style: Theme.of(context).textTheme.headline6,
+              style: Theme.of(context).textTheme.headline6?.copyWith(
+                    fontWeight: FontWeight.w600,
+                  ),
               textAlign: TextAlign.center,
             ),
             Text(
@@ -188,13 +190,13 @@ The idea is for you to plug colorBlindnessColorScheme() into your apps.""",
             ),
             ElevatedButton.icon(
               style: ElevatedButton.styleFrom(
-                padding: EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+                padding: EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8),
+                  borderRadius: BorderRadius.circular(8.0),
                 ),
               ),
               label: Text("Randomize Themes"),
-              icon: Icon(FeatherIcons.shuffle, size: 16),
+              icon: Icon(Icons.shuffle_rounded, size: 16.0),
               onPressed: () {
                 setState(() {
                   seed += 4;
@@ -210,19 +212,11 @@ The idea is for you to plug colorBlindnessColorScheme() into your apps.""",
                 children: [
                   Flexible(
                     flex: condition ? 1 : 0,
-                    child: customTheme(
-                      child: ThemeItem(),
-                      i: i,
-                      isDark: true,
-                    ),
+                    child: customThemeChild(i: i, isDark: true),
                   ),
                   Flexible(
                     flex: condition ? 1 : 0,
-                    child: customTheme(
-                      child: ThemeItem(),
-                      i: i,
-                      isDark: false,
-                    ),
+                    child: customThemeChild(i: i, isDark: false),
                   ),
                 ],
               ),
@@ -238,7 +232,7 @@ class ThemeItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       color: Theme.of(context).colorScheme.background,
-      elevation: 0,
+      elevation: 0.0,
       child: Row(
         children: [
           Expanded(child: SocialPreview()),
