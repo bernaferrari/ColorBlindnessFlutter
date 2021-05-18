@@ -13,9 +13,9 @@ dependencies:
   flutter:
     sdk: flutter
 
-  url_launcher: ^6.0.2
-  hsluv: ^1.1.1
-  random_color_scheme: ^0.1.1
+  url_launcher: ^6.0.3
+  hsluv: ^1.1.2
+  random_color_scheme: ^0.1.3
   color_blindness:
     path: ../
 

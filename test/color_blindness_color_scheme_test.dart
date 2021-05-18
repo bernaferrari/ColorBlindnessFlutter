@@ -20,6 +20,7 @@ void main() {
       primary: const Color(0xff00263b),
       secondary: const Color(0xff390062),
     );
-    expect(() => colorBlindnessAssertContrast(colorScheme, 7.5), returnsNormally);
+    expect(
+        () => colorBlindnessAssertContrast(colorScheme, 7.5), returnsNormally);
   });
 }
