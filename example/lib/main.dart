@@ -9,17 +9,19 @@ import 'preview/chat_preview.dart';
 import 'preview/social_preview.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Color Blindness',
-      home: RefreshableHome(),
+      home: const RefreshableHome(),
       theme: ThemeData(
-        colorScheme: ColorScheme.light(
+        colorScheme: const ColorScheme.light(
           primary: Color(0xffC2410C),
         ),
       ),
@@ -28,19 +30,21 @@ class MyApp extends StatelessWidget {
 }
 
 class RefreshableHome extends StatelessWidget {
+  const RefreshableHome({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: ThemeScreen(),
+      body: const ThemeScreen(),
       appBar: AppBar(
         backgroundColor: Colors.white,
-        title: Text(
+        title: const Text(
           "Color Blindness Color Scheme",
           style: TextStyle(color: Colors.black),
         ),
         actions: [
           IconButton(
-            icon: Icon(
+            icon: const Icon(
               Icons.code_rounded,
               color: Colors.black,
             ),
@@ -51,19 +55,21 @@ class RefreshableHome extends StatelessWidget {
             },
           )
         ],
-        elevation: 0.0,
+        elevation: 0,
       ),
     );
   }
 }
 
 class ThemeScreen extends StatefulWidget {
+  const ThemeScreen({Key? key}) : super(key: key);
+
   @override
   _ThemeScreenState createState() => _ThemeScreenState();
 }
 
 class _ThemeScreenState extends State<ThemeScreen> {
-  double sliderValue = 0.0;
+  double sliderValue = 0;
   ColorBlindnessType typeSelected = ColorBlindnessType.none;
   int seed = 0;
 
@@ -77,18 +83,18 @@ class _ThemeScreenState extends State<ThemeScreen> {
         outlinedButtonTheme: OutlinedButtonThemeData(
           style: OutlinedButton.styleFrom(
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(8.0),
+              borderRadius: BorderRadius.circular(8),
             ),
           ),
         ),
         cardTheme: CardTheme(
-          elevation: 0.0,
+          elevation: 0,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8.0),
+            borderRadius: BorderRadius.circular(8),
           ),
         ),
       ),
-      child: ThemeItem(),
+      child: const ThemeItem(),
     );
   }
 
@@ -106,11 +112,11 @@ class _ThemeScreenState extends State<ThemeScreen> {
       case ColorBlindnessType.none:
         return "most of the population";
       case ColorBlindnessType.protanomaly:
-        return "1% $m, 0.01% $f";
+        return "1% $m, 01% $f";
       case ColorBlindnessType.deuteranomaly:
         return "6% $m, 0.4% $f";
       case ColorBlindnessType.tritanomaly:
-        return "0.01% $p";
+        return "01% $p";
       case ColorBlindnessType.protanopia:
         return "1% $m";
       case ColorBlindnessType.deuteranopia:
@@ -118,9 +124,9 @@ class _ThemeScreenState extends State<ThemeScreen> {
       case ColorBlindnessType.tritanopia:
         return "less than 1% $p";
       case ColorBlindnessType.achromatopsia:
-        return "0.003% $p";
+        return "003% $p";
       case ColorBlindnessType.achromatomaly:
-        return "0.001% $p";
+        return "001% $p";
       default:
         // this should never be called.
         return "";
@@ -132,19 +138,19 @@ class _ThemeScreenState extends State<ThemeScreen> {
     final condition = MediaQuery.of(context).size.width > 950;
 
     return Padding(
-      padding: const EdgeInsets.all(4.0),
+      padding: const EdgeInsets.all(4),
       child: SingleChildScrollView(
         child: Column(
           children: [
             Card(
-              elevation: 0.0,
-              color: Color(0xffFFF7ED),
+              elevation: 0,
+              color: const Color(0xffFFF7ED),
               shape: RoundedRectangleBorder(
-                side: BorderSide(width: 2.0, color: Color(0xffFED7AA)),
-                borderRadius: BorderRadius.circular(8.0),
+                side: const BorderSide(width: 2, color: Color(0xffFED7AA)),
+                borderRadius: BorderRadius.circular(8),
               ),
               child: Padding(
-                padding: const EdgeInsets.all(16.0),
+                padding: const EdgeInsets.all(16),
                 child: Text(
                   """
 This is the sample for a library.
@@ -154,9 +160,7 @@ The idea is for you to plug colorBlindnessColorScheme() into your apps.""",
                 ),
               ),
             ),
-            SizedBox(
-              height: 24,
-            ),
+            const SizedBox(height: 24),
             Text(
               typesToStr(),
               style: Theme.of(context).textTheme.headline6?.copyWith(
@@ -169,11 +173,9 @@ The idea is for you to plug colorBlindnessColorScheme() into your apps.""",
               style: Theme.of(context).textTheme.subtitle2,
               textAlign: TextAlign.center,
             ),
-            SizedBox(
-              height: 8,
-            ),
+            const SizedBox(height: 8),
             ConstrainedBox(
-              constraints: BoxConstraints(maxWidth: 400),
+              constraints: const BoxConstraints(maxWidth: 400),
               child: Slider(
                 min: 0,
                 max: 7,
@@ -190,22 +192,21 @@ The idea is for you to plug colorBlindnessColorScheme() into your apps.""",
             ),
             ElevatedButton.icon(
               style: ElevatedButton.styleFrom(
-                padding: EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8.0),
+                  borderRadius: BorderRadius.circular(8),
                 ),
               ),
-              label: Text("Randomize Themes"),
-              icon: Icon(Icons.shuffle_rounded, size: 16.0),
+              label: const Text("Randomize Themes"),
+              icon: const Icon(Icons.shuffle_rounded, size: 16),
               onPressed: () {
                 setState(() {
                   seed += 4;
                 });
               },
             ),
-            SizedBox(
-              height: 16,
-            ),
+            const SizedBox(height: 16),
             for (int i = 0; i < 3; i++)
               Flex(
                 direction: condition ? Axis.horizontal : Axis.vertical,
@@ -228,13 +229,15 @@ The idea is for you to plug colorBlindnessColorScheme() into your apps.""",
 }
 
 class ThemeItem extends StatelessWidget {
+  const ThemeItem({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Card(
       color: Theme.of(context).colorScheme.background,
-      elevation: 0.0,
+      elevation: 0,
       child: Row(
-        children: [
+        children: const [
           Expanded(child: SocialPreview()),
           Expanded(child: ChatPreview()),
         ],

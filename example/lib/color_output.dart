@@ -4,6 +4,8 @@ import 'package:flutter/services.dart';
 import 'package:hsluv/hsluvcolor.dart';
 
 class ColorOutput extends StatefulWidget {
+  const ColorOutput({Key? key}) : super(key: key);
+
   @override
   _ColorOutputState createState() => _ColorOutputState();
 }
@@ -46,7 +48,7 @@ class _ColorOutputState extends State<ColorOutput> {
     ];
 
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.all(8),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         mainAxisAlignment: MainAxisAlignment.center,
@@ -59,15 +61,15 @@ class _ColorOutputState extends State<ColorOutput> {
             onValueChanged: onValueChanged,
             groupValue: currentSegment,
           ),
-          SizedBox(height: 8.0),
+          const SizedBox(height: 8),
           for (int i = 0; i < arr.length; i++)
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: 4.0),
+              padding: const EdgeInsets.symmetric(vertical: 4),
               child: OutlinedButton(
                 style: OutlinedButton.styleFrom(
                   primary: arr[i],
-                  padding: EdgeInsets.all(16.0),
-                  side: BorderSide(color: arr[i], width: 2.0),
+                  padding: const EdgeInsets.all(16),
+                  side: BorderSide(color: arr[i], width: 2),
                 ),
                 child: Text(
                   arr[i].retrieveColorStr(currentSegment),

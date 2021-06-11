@@ -3,18 +3,19 @@ import 'package:flutter/material.dart';
 import '../color_output.dart';
 
 class SocialPreview extends StatelessWidget {
+  const SocialPreview({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Card(
-      margin: EdgeInsets.all(8.0),
+      margin: const EdgeInsets.all(8),
       clipBehavior: Clip.antiAlias,
       color: Theme.of(context).colorScheme.surface,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
           Padding(
-            padding:
-                const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
             child: Text(
               "What's happening",
               overflow: TextOverflow.ellipsis,
@@ -29,11 +30,12 @@ class SocialPreview extends StatelessWidget {
             height: 1,
           ),
           ListTile(
-            title: Text("Trending", overflow: TextOverflow.ellipsis),
-            subtitle: Text("Design updates", overflow: TextOverflow.ellipsis),
-            contentPadding: EdgeInsets.symmetric(horizontal: 8.0),
+            title: const Text("Trending", overflow: TextOverflow.ellipsis),
+            subtitle:
+                const Text("Design updates", overflow: TextOverflow.ellipsis),
+            contentPadding: const EdgeInsets.symmetric(horizontal: 8),
             leading: Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(8),
               child: Icon(
                 Icons.account_balance,
                 size: 24,
@@ -41,16 +43,16 @@ class SocialPreview extends StatelessWidget {
               ),
             ),
             trailing: Padding(
-              padding: const EdgeInsets.only(right: 8.0),
+              padding: const EdgeInsets.only(right: 8),
               child: ElevatedButton.icon(
                 style: ElevatedButton.styleFrom(
-                  padding: EdgeInsets.all(16.0),
-                  elevation: 0.0,
+                  padding: const EdgeInsets.all(16),
+                  elevation: 0,
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8.0),
+                    borderRadius: BorderRadius.circular(8),
                   ),
                 ),
-                icon: Icon(Icons.share_outlined),
+                icon: const Icon(Icons.share),
                 label: Text(
                   "Export",
                   style: Theme.of(context).textTheme.bodyText1?.copyWith(
@@ -63,13 +65,13 @@ class SocialPreview extends StatelessWidget {
                     builder: (BuildContext context) {
                       return SimpleDialog(
                         title: const Text('Export (click to copy)'),
-                        titlePadding: EdgeInsets.only(left: 16.0, top: 16.0),
+                        titlePadding: const EdgeInsets.only(left: 16, top: 16),
                         backgroundColor:
                             Theme.of(context).brightness == Brightness.dark
-                                ? Color(0xff080808)
+                                ? const Color(0xff080808)
                                 : Colors.white,
-                        contentPadding: EdgeInsets.all(8.0),
-                        children: <Widget>[
+                        contentPadding: const EdgeInsets.all(8),
+                        children: const <Widget>[
                           ColorOutput(),
                         ],
                       );
@@ -84,12 +86,12 @@ class SocialPreview extends StatelessWidget {
             height: 1,
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
+            padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 _NotButton("Primary", Theme.of(context).colorScheme.primary),
-                SizedBox(width: 8.0),
+                const SizedBox(width: 8),
                 _NotButton(
                   "Secondary",
                   Theme.of(context).colorScheme.secondary,
@@ -107,19 +109,19 @@ class _NotButton extends StatelessWidget {
   final String text;
   final Color color;
 
-  const _NotButton(this.text, this.color);
+  const _NotButton(this.text, this.color, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Material(
-      elevation: 0.0,
+      elevation: 0,
       color: Colors.transparent,
       shape: RoundedRectangleBorder(
         side: BorderSide(color: color),
-        borderRadius: BorderRadius.circular(8.0),
+        borderRadius: BorderRadius.circular(8),
       ),
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(8),
         child: Row(
           children: [
             Icon(
@@ -127,11 +129,11 @@ class _NotButton extends StatelessWidget {
               color: color,
               size: 16,
             ),
-            SizedBox(width: 8),
+            const SizedBox(width: 8),
             Text(
               MediaQuery.of(context).size.width < 400 ? text[0] : text,
               style:
-                  Theme.of(context).textTheme.bodyText2?.copyWith(color: color),
+                  Theme.of(context).textTheme.bodyText2!.copyWith(color: color),
               overflow: TextOverflow.ellipsis,
             ),
           ],
