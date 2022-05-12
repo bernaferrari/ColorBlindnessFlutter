@@ -7,7 +7,7 @@ class ColorOutput extends StatefulWidget {
   const ColorOutput({Key? key}) : super(key: key);
 
   @override
-  _ColorOutputState createState() => _ColorOutputState();
+  State<ColorOutput> createState() => _ColorOutputState();
 }
 
 class _ColorOutputState extends State<ColorOutput> {

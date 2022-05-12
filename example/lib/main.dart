@@ -1,7 +1,6 @@
 import 'package:color_blindness/color_blindness.dart';
 import 'package:color_blindness/color_blindness_color_scheme.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:random_color_scheme/random_color_scheme.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -50,8 +49,8 @@ class RefreshableHome extends StatelessWidget {
             ),
             tooltip: "Source",
             onPressed: () async {
-              await launch(
-                  "https://github.com/bernaferrari/ColorBlindnessFlutter");
+              await launchUrl(Uri.parse(
+                  "https://github.com/bernaferrari/ColorBlindnessFlutter"));
             },
           )
         ],
@@ -65,7 +64,7 @@ class ThemeScreen extends StatefulWidget {
   const ThemeScreen({Key? key}) : super(key: key);
 
   @override
-  _ThemeScreenState createState() => _ThemeScreenState();
+  State<ThemeScreen> createState() => _ThemeScreenState();
 }
 
 class _ThemeScreenState extends State<ThemeScreen> {
