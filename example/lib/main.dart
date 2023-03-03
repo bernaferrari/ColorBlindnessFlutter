@@ -154,7 +154,7 @@ class _ThemeScreenState extends State<ThemeScreen> {
                   """
 This is the sample for a library.
 The idea is for you to plug colorBlindnessColorScheme() into your apps.""",
-                  style: Theme.of(context).textTheme.subtitle2,
+                  style: Theme.of(context).textTheme.titleSmall,
                   textAlign: TextAlign.center,
                 ),
               ),
@@ -162,14 +162,14 @@ The idea is for you to plug colorBlindnessColorScheme() into your apps.""",
             const SizedBox(height: 24),
             Text(
               typesToStr(),
-              style: Theme.of(context).textTheme.headline6?.copyWith(
+              style: Theme.of(context).textTheme.titleLarge?.copyWith(
                     fontWeight: FontWeight.w600,
                   ),
               textAlign: TextAlign.center,
             ),
             Text(
               affectedToStr(),
-              style: Theme.of(context).textTheme.subtitle2,
+              style: Theme.of(context).textTheme.titleSmall,
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 8),

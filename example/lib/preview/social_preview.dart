@@ -21,7 +21,7 @@ class SocialPreview extends StatelessWidget {
               overflow: TextOverflow.ellipsis,
               style: Theme.of(context)
                   .textTheme
-                  .headline6
+                  .titleLarge
                   ?.copyWith(fontWeight: FontWeight.w900),
             ),
           ),
@@ -55,7 +55,7 @@ class SocialPreview extends StatelessWidget {
                 icon: const Icon(Icons.share),
                 label: Text(
                   "Export",
-                  style: Theme.of(context).textTheme.bodyText1?.copyWith(
+                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                         color: Theme.of(context).colorScheme.onPrimary,
                       ),
                 ),
@@ -132,8 +132,10 @@ class _NotButton extends StatelessWidget {
             const SizedBox(width: 8),
             Text(
               MediaQuery.of(context).size.width < 400 ? text[0] : text,
-              style:
-                  Theme.of(context).textTheme.bodyText2!.copyWith(color: color),
+              style: Theme.of(context)
+                  .textTheme
+                  .bodyMedium!
+                  .copyWith(color: color),
               overflow: TextOverflow.ellipsis,
             ),
           ],
