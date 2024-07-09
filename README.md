@@ -36,7 +36,6 @@ In your project, just wrap the `ColorScheme.dark(...)` with `colorBlindnessColor
 
 ```dart
 import 'package:color_blindness/color_blindness.dart';
-import 'package:color_blindness/color_blindness_color_scheme.dart';
 
 Theme(
   data: ThemeData(
