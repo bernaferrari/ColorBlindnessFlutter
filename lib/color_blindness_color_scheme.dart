@@ -64,8 +64,5 @@ ColorScheme colorBlindnessColorScheme(
     onInverseSurface: colorBlindness(scheme.onInverseSurface, type),
     inversePrimary: colorBlindness(scheme.inversePrimary, type),
     surfaceTint: colorBlindness(scheme.surfaceTint, type),
-    background: colorBlindness(scheme.background, type),
-    onBackground: colorBlindness(scheme.onBackground, type),
-    surfaceVariant: colorBlindness(scheme.surfaceVariant, type),
   );
 }

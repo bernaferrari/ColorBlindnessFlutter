@@ -1,5 +1,7 @@
 import 'dart:ui';
+
 export 'package:color_blindness/color_blindness_color_scheme.dart';
+
 /// The color blindness types.
 /// Type [none] is included as a convenience.
 enum ColorBlindnessType {

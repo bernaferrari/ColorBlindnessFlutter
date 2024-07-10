@@ -3,7 +3,6 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 
 import 'color_blindness.dart';
-import 'color_blindness_color_scheme.dart';
 
 /// This method simulates color blindness in a ColorScheme and compares
 /// [primary, secondary] against [background, surface].
@@ -38,7 +37,7 @@ void colorBlindnessAssertContrast(ColorScheme scheme,
 
     calculate(
       aColor: updatedScheme.primary,
-      bColor: updatedScheme.background,
+      bColor: updatedScheme.surface,
       aStr: "primary",
       bStr: "background",
     );
@@ -52,14 +51,14 @@ void colorBlindnessAssertContrast(ColorScheme scheme,
 
     calculate(
       aColor: updatedScheme.secondary,
-      bColor: updatedScheme.background,
+      bColor: updatedScheme.surface,
       aStr: "secondary",
       bStr: "background",
     );
 
     calculate(
       aColor: updatedScheme.secondary,
-      bColor: updatedScheme.background,
+      bColor: updatedScheme.surface,
       aStr: "secondary",
       bStr: "surface",
     );

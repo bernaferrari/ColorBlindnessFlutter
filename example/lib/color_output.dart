@@ -35,16 +35,16 @@ class _ColorOutputState extends State<ColorOutput> {
 
   @override
   Widget build(BuildContext context) {
-    final surface = Theme.of(context).colorScheme.surface;
-    final background = Theme.of(context).colorScheme.background;
+    final surface = Theme.of(context).colorScheme.surfaceContainer;
+    final background = Theme.of(context).colorScheme.surface;
 
     final lum = HSLuvColor.fromColor(background).lightness;
 
     final arr = [
       Theme.of(context).colorScheme.primary,
       Theme.of(context).colorScheme.secondary,
+      Theme.of(context).colorScheme.surfaceContainer,
       Theme.of(context).colorScheme.surface,
-      Theme.of(context).colorScheme.background,
     ];
 
     return Padding(
@@ -56,7 +56,7 @@ class _ColorOutputState extends State<ColorOutput> {
           CupertinoSlidingSegmentedControl<int>(
             children: children,
             backgroundColor:
-                Theme.of(context).colorScheme.onBackground.withOpacity(0.20),
+                Theme.of(context).colorScheme.onSurface.withOpacity(0.20),
             thumbColor: surface,
             onValueChanged: onValueChanged,
             groupValue: currentSegment,

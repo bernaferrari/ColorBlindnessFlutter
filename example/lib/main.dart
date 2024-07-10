@@ -1,5 +1,4 @@
 import 'package:color_blindness/color_blindness.dart';
-import 'package:color_blindness/color_blindness_color_scheme.dart';
 import 'package:flutter/material.dart';
 import 'package:random_color_scheme/random_color_scheme.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -233,10 +232,10 @@ class ThemeItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      color: Theme.of(context).colorScheme.background,
+      color: Theme.of(context).colorScheme.surface,
       elevation: 0,
-      child: Row(
-        children: const [
+      child: const Row(
+        children: [
           Expanded(child: SocialPreview()),
           Expanded(child: ChatPreview()),
         ],
