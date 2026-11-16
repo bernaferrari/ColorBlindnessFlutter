@@ -11,6 +11,11 @@ extension ColorBlindnessColorSchemeExtension on ColorScheme {
 
 /// Simulates color blindness for every color role in a Material 3 [scheme].
 ///
+/// Transforms each token individually via [colorBlindness] (keeping
+/// `brightness` unchanged) rather than applying a full-screen shader, so you
+/// can pass the resulting [ColorScheme] into [ThemeData] or run contrast
+/// checks against simulated tokens via `colorBlindnessContrastIssues`.
+///
 /// Returns [scheme] unchanged when [type] is [ColorBlindnessType.none].
 ColorScheme colorBlindnessColorScheme(
   ColorScheme scheme,

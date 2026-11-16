@@ -1,3 +1,8 @@
+## [0.3.1]
+
+* Add Display P3 (`ColorSpace.displayP3`) and wide-gamut `ColorSpace.extendedSRGB` support across color blindness simulation and `colorContrastRatio`.
+* Add documentation comments explaining the 3x3 simulation matrices, accuracy trade-offs, and external CVD/WCAG references across source files and README.
+
 ## [0.3.0]
 
 * Require Flutter 3.50+ / Dart 3.14+ and standalone `material_ui` types.

@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:material_ui/material_ui.dart';
 
 import 'color_blindness.dart';
+import 'src/color_space_math.dart';
 
 /// Describes a foreground/background pair that fell below [threshold] WCAG
 /// contrast under a simulated [ColorBlindnessType].
@@ -33,16 +34,26 @@ class ContrastCheckIssue {
 }
 
 /// Computes the WCAG 2.1 relative luminance contrast ratio between two colors,
-/// ranging from `1.0` to `21.0`.
+/// ranging from `1.0` (identical luminance) to `21.0` (black on white).
+///
+/// Uses `(L_lighter + 0.05) / (L_darker + 0.05)`. Supports [ColorSpace.sRGB],
+/// [ColorSpace.displayP3] (mapped to CIE XYZ/sRGB relative luminance), and
+/// [ColorSpace.extendedSRGB].
+///
+/// See https://www.w3.org/TR/WCAG21/#dfn-contrast-ratio.
 double colorContrastRatio(Color first, Color second) {
-  final firstLuminance = first.computeLuminance();
-  final secondLuminance = second.computeLuminance();
+  final firstLuminance = relativeLuminance(first);
+  final secondLuminance = relativeLuminance(second);
   final darker = min(firstLuminance, secondLuminance);
   final lighter = max(firstLuminance, secondLuminance);
   return (lighter + 0.05) / (darker + 0.05);
 }
 
 /// Returns every contrast failure found when simulating [scheme] across [types].
+///
+/// Even when two hues differ clearly in trichromatic vision, collapsing red/green
+/// or blue/yellow cone separation can leave simulated pairs with too little
+/// luminance contrast.
 ///
 /// Always checks `primary`/`surface` and `secondary`/`surface`. When
 /// [includeOnRoles] is `true`, also checks Material 3 `on*` foreground/surface

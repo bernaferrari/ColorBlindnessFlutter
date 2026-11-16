@@ -20,7 +20,7 @@
 
 ```yaml
 dependencies:
-  color_blindness: ^0.3.0
+  color_blindness: ^0.3.1
 ```
 
 Wrap your Material 3 `ColorScheme` with `.simulateColorBlindness(...)` (or `colorBlindnessColorScheme(...)`):
@@ -66,5 +66,11 @@ cd ColorBlindnessFlutter/example
 flutter pub get
 flutter run -d chrome
 ```
+
+## How It Works
+
+Each simulation transforms a color's RGB channels with a 3×3 channel-mixing matrix adapted from [`jdekock/Colorblinds`](https://github.com/jdekock/Colorblinds) (tracing back to the classic Matthew Wickline / HCIRN RGB-filter approximations). Mixing channels toward shared confusion lines preserves neutral grays while modeling reduced red–green (`protan*`, `deutan*`) or blue–yellow (`tritan*`) cone separation, and `achromatopsia` projects onto ITU-R BT.601 luminance (`0.299 R + 0.587 G + 0.114 B`).
+
+Because these transforms operate directly on normalized sRGB components rather than linearizing into physiological LMS cone space (as in Brettel et al. 1997, Viénot et al. 1999, or Machado et al. 2009), they serve as fast, lightweight visual approximations for UI accessibility previews. Wide-gamut colors in `ColorSpace.displayP3` and `ColorSpace.extendedSRGB` are also supported (`displayP3` is transformed through extended sRGB and converted back to `displayP3`, and `colorContrastRatio` computes physical luminance across all three color spaces). To learn more about LMS cone-space models and matrix approximations, see [DaltonLens: Understanding CVD Simulation](https://daltonlens.org/understanding-cvd-simulation/) and [CVD Simulation SVG Filters](https://daltonlens.org/cvd-simulation-svg-filters/).
 
 Color Blindness on Flutter is open source under the [MIT license](https://github.com/bernaferrari/ColorBlindnessFlutter/blob/main/LICENSE).
