@@ -1,14 +1,17 @@
 name: color_blindness
 description: Color Blindness on Flutter. Works with either color scheme or individual colors.
-version: 0.2.0
+version: 0.3.0
 homepage: https://github.com/bernaferrari/ColorBlindnessFlutter
+repository: https://github.com/bernaferrari/ColorBlindnessFlutter
 
 environment:
-  sdk: '>=3.0.0 <4.0.0'
+  sdk: ^3.14.0
+  flutter: '>=3.50.0'
 
 dependencies:
   flutter:
     sdk: flutter
+  material_ui: ^1.11.0
 
 dev_dependencies:
   flutter_test:

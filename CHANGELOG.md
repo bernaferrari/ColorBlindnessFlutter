@@ -1,3 +1,11 @@
+## [0.3.0]
+
+* Require Flutter 3.50+ / Dart 3.14+ and standalone `material_ui` types.
+* Preserve floating-point channel precision, `ColorSpace`, and alpha in color blindness simulation.
+* Add `simulateColorBlindness` extensions on `Color` and `ColorScheme`, plus `label` and `shortDescription` metadata on `ColorBlindnessType`.
+* Add `colorContrastRatio`, `ContrastCheckIssue`, and `colorBlindnessContrastIssues` alongside `colorBlindnessAssertContrast` across all 45 Material 3 roles.
+* Redesign the example app as a side-by-side Original vs Simulated Material 3 showcase with interactive contrast auditing and Dart export (removing `hsluv`).
+
 ## [0.2.0] - 10/05/2024
 
 * Update constraints to Flutter 3.22.

@@ -1,7 +1,11 @@
-# Color Blindness on Flutter Sample
+# Color Blindness Simulator Example
 
-This is the sample for the Color Blindness on Flutter library. Check the full documentation [here](https://github.com/bernaferrari/ColorBlindnessFlutter).
+Interactive comparison gallery for `color_blindness`. Test custom seed hex colors across eight color vision deficiencies in Light and Dark Material 3 themes, inspect WCAG 2.1 contrast issues, and export Dart snippets.
 
-<a href="https://bernaferrari.github.io/ColorBlindnessFlutter"><img src="assets/try_here.png" height="50"/></a>
+- [Live web demo](https://bernaferrari.github.io/ColorBlindnessFlutter/)
+- [Package README](../README.md)
 
-[![Color Blindness on Flutter](../assets/sample_preview.png)](https://bernaferrari.github.io/ColorBlindnessFlutter/)
+```sh
+flutter pub get
+flutter run -d chrome
+```

@@ -1,140 +1,166 @@
 import 'dart:ui';
 
 export 'package:color_blindness/color_blindness_color_scheme.dart';
+export 'package:color_blindness/color_blindness_contrast_checker.dart';
 
-/// The color blindness types.
-/// Type [none] is included as a convenience.
+/// Color vision deficiency simulation modes.
+///
+/// Includes [none] as an identity pass-through convenience.
 enum ColorBlindnessType {
-  none,
-  protanomaly,
-  deuteranomaly,
-  tritanomaly,
-  protanopia,
-  deuteranopia,
-  tritanopia,
-  achromatopsia,
-  achromatomaly,
+  none('Normal vision', 'Full trichromatic vision'),
+  protanomaly('Protanomaly', 'Red-weak trichromacy'),
+  deuteranomaly('Deuteranomaly', 'Green-weak trichromacy'),
+  tritanomaly('Tritanomaly', 'Blue-weak trichromacy'),
+  protanopia('Protanopia', 'Red-blind dichromacy'),
+  deuteranopia('Deuteranopia', 'Green-blind dichromacy'),
+  tritanopia('Tritanopia', 'Blue-blind dichromacy'),
+  achromatopsia('Achromatopsia', 'Complete monochromacy'),
+  achromatomaly('Achromatomaly', 'Partial monochromacy');
+
+  const ColorBlindnessType(this.label, this.shortDescription);
+
+  /// Human-readable display name.
+  final String label;
+
+  /// Concise summary of the color vision deficiency.
+  final String shortDescription;
 }
 
-/// Simulates color blindness in a single color.
-/// Input: a [Color] and a [ColorBlindnessType]
-/// Output: the simulated [Color]
-Color colorBlindness(Color color, ColorBlindnessType type) {
-  switch (type) {
-    case ColorBlindnessType.none:
-      return color;
-    case ColorBlindnessType.protanomaly:
-      return protanomaly(color);
-    case ColorBlindnessType.deuteranomaly:
-      return deuteranomaly(color);
-    case ColorBlindnessType.tritanomaly:
-      return tritanomaly(color);
-    case ColorBlindnessType.protanopia:
-      return protanopia(color);
-    case ColorBlindnessType.deuteranopia:
-      return deuteranopia(color);
-    case ColorBlindnessType.tritanopia:
-      return tritanopia(color);
-    case ColorBlindnessType.achromatopsia:
-      return achromatopsia(color);
-    case ColorBlindnessType.achromatomaly:
-      return achromatomaly(color);
-    default:
-      // this should never be called.
-      return const Color(0x00000000);
-  }
+/// Convenience simulation helper on any Flutter [Color].
+extension ColorBlindnessColorExtension on Color {
+  /// Returns this color as perceived under [type].
+  Color simulateColorBlindness(ColorBlindnessType type) =>
+      colorBlindness(this, type);
 }
 
-/// Converted to Dart from: https://github.com/jordidekock/Colorblinds
+/// Simulates color blindness in a single [color].
+Color colorBlindness(Color color, ColorBlindnessType type) => switch (type) {
+  ColorBlindnessType.none => color,
+  ColorBlindnessType.protanomaly => protanomaly(color),
+  ColorBlindnessType.deuteranomaly => deuteranomaly(color),
+  ColorBlindnessType.tritanomaly => tritanomaly(color),
+  ColorBlindnessType.protanopia => protanopia(color),
+  ColorBlindnessType.deuteranopia => deuteranopia(color),
+  ColorBlindnessType.tritanopia => tritanopia(color),
+  ColorBlindnessType.achromatopsia => achromatopsia(color),
+  ColorBlindnessType.achromatomaly => achromatomaly(color),
+};
 
-/// Malfunctioning green.
-Color deuteranomaly(Color color) {
-  final double r = (color.red * 0.80) + (color.green * 0.20) + (color.blue * 0);
-  final double g =
-      (color.red * 0.25833) + (color.green * 0.74167) + (color.blue * 0);
-  final double b =
-      (color.red * 0.0) + (color.green * 0.14167) + (color.blue * 0.85833);
+// Matrices adapted from https://github.com/jordidekock/Colorblinds.
 
-  return Color.fromARGB(255, r.round(), g.round(), b.round());
-}
+/// Malfunctioning green cones.
+Color deuteranomaly(Color color) => _applyMatrix(
+  color,
+  0.80,
+  0.20,
+  0.0,
+  0.25833,
+  0.74167,
+  0.0,
+  0.0,
+  0.14167,
+  0.85833,
+);
 
-/// Missing red.
-Color protanopia(Color color) {
-  final double r =
-      (color.red * 0.56667) + (color.green * 0.43333) + (color.blue * 0);
-  final double g =
-      (color.red * 0.55833) + (color.green * 0.44167) + (color.blue * 0);
-  final double b =
-      (color.red * 0.0) + (color.green * 0.24167) + (color.blue * 0.75833);
+/// Missing red cones.
+Color protanopia(Color color) => _applyMatrix(
+  color,
+  0.56667,
+  0.43333,
+  0.0,
+  0.55833,
+  0.44167,
+  0.0,
+  0.0,
+  0.24167,
+  0.75833,
+);
 
-  return Color.fromARGB(255, r.round(), g.round(), b.round());
-}
+/// Missing green cones.
+Color deuteranopia(Color color) =>
+    _applyMatrix(color, 0.625, 0.375, 0.0, 0.7, 0.3, 0.0, 0.0, 0.3, 0.7);
 
-/// Missing green.
-Color deuteranopia(Color color) {
-  final double r =
-      (color.red * 0.625) + (color.green * 0.375) + (color.blue * 0);
-  final double g = (color.red * 0.7) + (color.green * 0.3) + (color.blue * 0);
-  final double b = (color.red * 0.0) + (color.green * 0.3) + (color.blue * 0.7);
+/// Malfunctioning red cones.
+Color protanomaly(Color color) => _applyMatrix(
+  color,
+  0.81667,
+  0.18333,
+  0.0,
+  0.33333,
+  0.66667,
+  0.0,
+  0.0,
+  0.125,
+  0.875,
+);
 
-  return Color.fromARGB(255, r.round(), g.round(), b.round());
-}
+/// Missing blue cones.
+Color tritanopia(Color color) =>
+    _applyMatrix(color, 0.95, 0.05, 0.0, 0.0, 0.43, 0.56, 0.0, 0.4755, 0.525);
 
-/// Malfunctioning red.
-Color protanomaly(Color color) {
-  final double r =
-      (color.red * 0.81667) + (color.green * 0.18333) + (color.blue * 0);
-  final double g =
-      (color.red * 0.33333) + (color.green * 0.66667) + (color.blue * 0);
-  final double b =
-      (color.red * 0.0) + (color.green * 0.125) + (color.blue * 0.875);
+/// Malfunctioning blue cones.
+Color tritanomaly(Color color) => _applyMatrix(
+  color,
+  0.9667,
+  0.033,
+  0.0,
+  0.0,
+  0.733,
+  0.2667,
+  0.0,
+  0.183,
+  0.8167,
+);
 
-  return Color.fromARGB(255, r.round(), g.round(), b.round());
-}
+/// Less severe form of total color blindness (partial monochromacy).
+Color achromatomaly(Color color) => _applyMatrix(
+  color,
+  0.618,
+  0.32,
+  0.062,
+  0.163,
+  0.775,
+  0.062,
+  0.163,
+  0.32,
+  0.516,
+);
 
-/// Missing blue.
-Color tritanopia(Color color) {
-  final double r = (color.red * 0.95) + (color.green * 0.05) + (color.blue * 0);
-  final double g =
-      (color.red * 0.0) + (color.green * 0.43) + (color.blue * 0.56);
-  final double b =
-      (color.red * 0.0) + (color.green * 0.4755) + (color.blue * 0.525);
+/// Total color blindness (monochromacy).
+Color achromatopsia(Color color) => _applyMatrix(
+  color,
+  0.299,
+  0.587,
+  0.114,
+  0.299,
+  0.587,
+  0.114,
+  0.299,
+  0.587,
+  0.114,
+);
 
-  return Color.fromARGB(255, r.round(), g.round(), b.round());
-}
+Color _applyMatrix(
+  Color color,
+  double rr,
+  double rg,
+  double rb,
+  double gr,
+  double gg,
+  double gb,
+  double br,
+  double bg,
+  double bb,
+) {
+  final red = (color.r * rr + color.g * rg + color.b * rb).clamp(0.0, 1.0);
+  final green = (color.r * gr + color.g * gg + color.b * gb).clamp(0.0, 1.0);
+  final blue = (color.r * br + color.g * bg + color.b * bb).clamp(0.0, 1.0);
 
-/// Malfunctioning blue.
-Color tritanomaly(Color color) {
-  final double r =
-      (color.red * 0.9667) + (color.green * 0.033) + (color.blue * 0);
-  final double g =
-      (color.red * 0.0) + (color.green * 0.733) + (color.blue * 0.2667);
-  final double b =
-      (color.red * 0.0) + (color.green * 0.183) + (color.blue * 0.8167);
-
-  return Color.fromARGB(255, r.round(), g.round(), b.round());
-}
-
-/// Less severe form of total color blind (monochromatic).
-Color achromatomaly(Color color) {
-  final double r =
-      (color.red * 0.618) + (color.green * 0.32) + (color.blue * 0.062);
-  final double g =
-      (color.red * 0.163) + (color.green * 0.775) + (color.blue * 0.062);
-  final double b =
-      (color.red * 0.163) + (color.green * 0.32) + (color.blue * 0.516);
-
-  return Color.fromARGB(255, r.round(), g.round(), b.round());
-}
-
-/// Totally color blind (monochromatic).
-Color achromatopsia(Color color) {
-  final double r =
-      (color.red * 0.299) + (color.green * 0.587) + (color.blue * 0.114);
-  final double g =
-      (color.red * 0.299) + (color.green * 0.587) + (color.blue * 0.114);
-  final double b =
-      (color.red * 0.299) + (color.green * 0.587) + (color.blue * 0.114);
-
-  return Color.fromARGB(255, r.round(), g.round(), b.round());
+  return Color.from(
+    alpha: color.a,
+    red: red,
+    green: green,
+    blue: blue,
+    colorSpace: color.colorSpace,
+  );
 }

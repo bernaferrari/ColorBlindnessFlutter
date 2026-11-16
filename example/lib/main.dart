@@ -1,243 +1,369 @@
 import 'package:color_blindness/color_blindness.dart';
-import 'package:flutter/material.dart';
-import 'package:random_color_scheme/random_color_scheme.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:material_ui/material_ui.dart';
 
-import 'preview/chat_preview.dart';
-import 'preview/social_preview.dart';
+import 'studio_model.dart';
+import 'widgets/comparison_feed.dart';
+import 'widgets/dart_code_view.dart';
+import 'widgets/studio_controls.dart';
 
-void main() {
-  runApp(const MyApp());
+void main() => runApp(const ColorBlindnessExampleApp());
+
+class ColorBlindnessExampleApp extends StatefulWidget {
+  const ColorBlindnessExampleApp({super.key});
+
+  @override
+  State<ColorBlindnessExampleApp> createState() =>
+      _ColorBlindnessExampleAppState();
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+class _ColorBlindnessExampleAppState extends State<ColorBlindnessExampleApp> {
+  ThemeMode _themeMode = ThemeMode.system;
+
+  ThemeData _buildStudioTheme(Brightness brightness, StudioPalette palette) {
+    return ThemeData(
+      brightness: brightness,
+      colorScheme: ColorScheme.fromSeed(
+        seedColor: palette.ink,
+        brightness: brightness,
+        dynamicSchemeVariant: DynamicSchemeVariant.neutral,
+      ),
+      scaffoldBackgroundColor: palette.paper,
+    );
+  }
+
+  void _toggleTheme(Brightness currentBrightness) {
+    setState(() {
+      _themeMode = currentBrightness == Brightness.dark
+          ? ThemeMode.light
+          : ThemeMode.dark;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Color Blindness',
-      home: const RefreshableHome(),
-      theme: ThemeData(
-        colorScheme: const ColorScheme.light(
-          primary: Color(0xffC2410C),
-        ),
-      ),
+      title: 'Color Blindness Simulator',
+      debugShowCheckedModeBanner: false,
+      themeMode: _themeMode,
+      themeAnimationDuration: const Duration(milliseconds: 220),
+      themeAnimationCurve: kStudioEaseOut,
+      theme: _buildStudioTheme(Brightness.light, StudioPalette.light),
+      darkTheme: _buildStudioTheme(Brightness.dark, StudioPalette.dark),
+      home: SimulatorHome(onToggleDarkMode: _toggleTheme),
     );
   }
 }
 
-class RefreshableHome extends StatelessWidget {
-  const RefreshableHome({Key? key}) : super(key: key);
+class SimulatorHome extends StatefulWidget {
+  const SimulatorHome({super.key, required this.onToggleDarkMode});
+
+  final ValueChanged<Brightness> onToggleDarkMode;
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: const ThemeScreen(),
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        title: const Text(
-          "Color Blindness Color Scheme",
-          style: TextStyle(color: Colors.black),
-        ),
-        actions: [
-          IconButton(
-            icon: const Icon(
-              Icons.code_rounded,
-              color: Colors.black,
-            ),
-            tooltip: "Source",
-            onPressed: () async {
-              await launchUrl(Uri.parse(
-                  "https://github.com/bernaferrari/ColorBlindnessFlutter"));
-            },
-          )
-        ],
-        elevation: 0,
-      ),
-    );
-  }
+  State<SimulatorHome> createState() => _SimulatorHomeState();
 }
 
-class ThemeScreen extends StatefulWidget {
-  const ThemeScreen({Key? key}) : super(key: key);
+class _SimulatorHomeState extends State<SimulatorHome> {
+  static final _hexPattern = RegExp(r'^[0-9a-fA-F]{6}$');
+
+  Color _seedColor = seedPresets.first.color;
+  late final TextEditingController _seedController = TextEditingController(
+    text: encodeHex(_seedColor),
+  );
+  String? _seedError;
+  int _shuffleIndex = 0;
+
+  ColorBlindnessType _simulation = ColorBlindnessType.deuteranopia;
+  ComparisonView _comparisonView = ComparisonView.both;
 
   @override
-  State<ThemeScreen> createState() => _ThemeScreenState();
-}
-
-class _ThemeScreenState extends State<ThemeScreen> {
-  double sliderValue = 0;
-  ColorBlindnessType typeSelected = ColorBlindnessType.none;
-  int seed = 0;
-
-  Theme customThemeChild({required int i, required bool isDark}) {
-    return Theme(
-      data: ThemeData(
-        colorScheme: colorBlindnessColorScheme(
-          randomColorScheme(seed: i + seed, isDark: isDark, shouldPrint: false),
-          typeSelected,
-        ),
-        outlinedButtonTheme: OutlinedButtonThemeData(
-          style: OutlinedButton.styleFrom(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(8),
-            ),
-          ),
-        ),
-        cardTheme: CardTheme(
-          elevation: 0,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8),
-          ),
-        ),
-      ),
-      child: const ThemeItem(),
-    );
+  void dispose() {
+    _seedController.dispose();
+    super.dispose();
   }
 
-  String typesToStr() {
-    final str = typeSelected.toString().substring(19);
-    return str[0].toUpperCase() + str.substring(1);
-  }
-
-  String affectedToStr() {
-    const m = "of males";
-    const f = "of females";
-    const p = "of population";
-
-    switch (typeSelected) {
-      case ColorBlindnessType.none:
-        return "most of the population";
-      case ColorBlindnessType.protanomaly:
-        return "1% $m, 01% $f";
-      case ColorBlindnessType.deuteranomaly:
-        return "6% $m, 0.4% $f";
-      case ColorBlindnessType.tritanomaly:
-        return "01% $p";
-      case ColorBlindnessType.protanopia:
-        return "1% $m";
-      case ColorBlindnessType.deuteranopia:
-        return "1% $m";
-      case ColorBlindnessType.tritanopia:
-        return "less than 1% $p";
-      case ColorBlindnessType.achromatopsia:
-        return "003% $p";
-      case ColorBlindnessType.achromatomaly:
-        return "001% $p";
-      default:
-        // this should never be called.
-        return "";
+  void _applySeedInput(String value, {bool validate = false}) {
+    final normalized = value.trim().replaceFirst('#', '');
+    if (_hexPattern.hasMatch(normalized)) {
+      setState(() {
+        _seedColor = Color(0xFF000000 | int.parse(normalized, radix: 16));
+        _seedError = null;
+      });
+    } else if (validate || _seedError != null) {
+      setState(() => _seedError = 'Enter six hex digits');
     }
   }
 
-  @override
-  Widget build(BuildContext context) {
-    final condition = MediaQuery.of(context).size.width > 950;
+  void _selectPreset(Color color) {
+    setState(() {
+      _seedColor = color;
+      _seedController.text = encodeHex(color);
+      _seedError = null;
+    });
+  }
 
-    return Padding(
-      padding: const EdgeInsets.all(4),
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            Card(
-              elevation: 0,
-              color: const Color(0xffFFF7ED),
-              shape: RoundedRectangleBorder(
-                side: const BorderSide(width: 2, color: Color(0xffFED7AA)),
-                borderRadius: BorderRadius.circular(8),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(16),
-                child: Text(
-                  """
-This is the sample for a library.
-The idea is for you to plug colorBlindnessColorScheme() into your apps.""",
-                  style: Theme.of(context).textTheme.titleSmall,
-                  textAlign: TextAlign.center,
-                ),
-              ),
-            ),
-            const SizedBox(height: 24),
-            Text(
-              typesToStr(),
-              style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                    fontWeight: FontWeight.w600,
+  void _shuffle() {
+    setState(() {
+      _shuffleIndex++;
+      _seedColor = HSLColor.fromAHSL(
+        1.0,
+        (155 + _shuffleIndex * 137.5) % 360,
+        0.68,
+        0.44,
+      ).toColor();
+      _seedController.text = encodeHex(_seedColor);
+      _seedError = null;
+    });
+  }
+
+  Future<void> _openCodeDialog(Brightness activeBrightness) {
+    var tab = 0;
+    return showDialog<void>(
+      context: context,
+      builder: (context) => StatefulBuilder(
+        builder: (context, setState) {
+          final palette = StudioPalette.of(context);
+          final isDark = Theme.of(context).brightness == Brightness.dark;
+          final snippet = tab == 0
+              ? buildSchemeSnippet(
+                  seedColor: _seedColor,
+                  brightness: activeBrightness,
+                  type: _simulation,
+                )
+              : buildContrastSnippet(
+                  seedColor: _seedColor,
+                  brightness: activeBrightness,
+                );
+
+          return AlertDialog(
+            backgroundColor: palette.surface,
+            title: Wrap(
+              spacing: 12,
+              runSpacing: 8,
+              crossAxisAlignment: WrapCrossAlignment.center,
+              alignment: WrapAlignment.spaceBetween,
+              children: [
+                Text(
+                  _simulation.label,
+                  style: TextStyle(
+                    fontFamily: 'Instrument Serif',
+                    fontSize: 26,
+                    fontWeight: FontWeight.w400,
+                    color: palette.ink,
                   ),
-              textAlign: TextAlign.center,
-            ),
-            Text(
-              affectedToStr(),
-              style: Theme.of(context).textTheme.titleSmall,
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: 8),
-            ConstrainedBox(
-              constraints: const BoxConstraints(maxWidth: 400),
-              child: Slider(
-                min: 0,
-                max: 7,
-                divisions: 7,
-                value: sliderValue,
-                onChanged: (value) {
-                  setState(() {
-                    sliderValue = value;
-                    typeSelected =
-                        ColorBlindnessType.values[sliderValue.toInt()];
-                  });
-                },
-              ),
-            ),
-            ElevatedButton.icon(
-              style: ElevatedButton.styleFrom(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8),
                 ),
-              ),
-              label: const Text("Randomize Themes"),
-              icon: const Icon(Icons.shuffle_rounded, size: 16),
-              onPressed: () {
-                setState(() {
-                  seed += 4;
-                });
-              },
+                StudioPillSelector<int>(
+                  value: tab,
+                  options: const [
+                    (value: 0, label: 'Theme'),
+                    (value: 1, label: 'CI Test'),
+                  ],
+                  onChanged: (next) => setState(() => tab = next),
+                ),
+              ],
             ),
-            const SizedBox(height: 16),
-            for (int i = 0; i < 3; i++)
-              Flex(
-                direction: condition ? Axis.horizontal : Axis.vertical,
+            content: ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 540),
+              child: SingleChildScrollView(child: DartCodeView(code: snippet)),
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.of(context).pop(),
+                child: const Text('Close'),
+              ),
+              FilledButton.icon(
+                style: FilledButton.styleFrom(
+                  backgroundColor: palette.ink,
+                  foregroundColor: isDark ? palette.paper : Colors.white,
+                ),
+                onPressed: () =>
+                    copyWithFeedback(context, snippet, label: 'Dart snippet'),
+                icon: const Icon(Icons.copy_rounded, size: 15),
+                label: const Text('Copy'),
+              ),
+            ],
+          );
+        },
+      ),
+    );
+  }
+
+  Future<void> _showGuideDialog() {
+    return showDialog<void>(
+      context: context,
+      builder: (context) {
+        final palette = StudioPalette.of(context);
+        final isDark = Theme.of(context).brightness == Brightness.dark;
+        return AlertDialog(
+          backgroundColor: palette.surface,
+          title: Text(
+            'How it works',
+            style: TextStyle(
+              fontFamily: 'Instrument Serif',
+              fontSize: 28,
+              fontWeight: FontWeight.w400,
+              color: palette.ink,
+            ),
+          ),
+          content: ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 440),
+            child: const SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
                 children: [
-                  Flexible(
-                    flex: condition ? 1 : 0,
-                    child: customThemeChild(i: i, isDark: true),
+                  _GuideRow(
+                    title: 'Compare side by side',
+                    body: 'Pick any Material 3 seed color dot or custom hex code and preview how components shift under eight color vision deficiencies.',
                   ),
-                  Flexible(
-                    flex: condition ? 1 : 0,
-                    child: customThemeChild(i: i, isDark: false),
+                  _GuideRow(
+                    title: 'Inspect palette roles',
+                    body: 'Hover or tap the overlapping dot cluster on any card to fan out semantic accents and copy hex codes.',
+                  ),
+                  _GuideRow(
+                    title: 'Ready for CI checks',
+                    body: 'Open the code dialog to copy ready-to-use simulateColorBlindness and colorBlindnessAssertContrast snippets.',
                   ),
                 ],
               ),
+            ),
+          ),
+          actions: [
+            FilledButton(
+              style: FilledButton.styleFrom(
+                backgroundColor: palette.ink,
+                foregroundColor: isDark ? palette.paper : Colors.white,
+              ),
+              onPressed: () => Navigator.of(context).pop(),
+              child: const Text('Done'),
+            ),
           ],
+        );
+      },
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final palette = StudioPalette.of(context);
+    final activeBrightness = Theme.of(context).brightness;
+    final original = ColorScheme.fromSeed(
+      seedColor: _seedColor,
+      brightness: activeBrightness,
+    );
+    final simulated = original.simulateColorBlindness(_simulation);
+
+    return Scaffold(
+      body: SafeArea(
+        child: LayoutBuilder(
+          builder: (context, limits) {
+            final compact = limits.maxWidth < 680;
+            final horizontal = compact ? 16.0 : 28.0;
+
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Center(
+                  child: ConstrainedBox(
+                    constraints: const BoxConstraints(maxWidth: 1180),
+                    child: Padding(
+                      padding: EdgeInsets.fromLTRB(
+                        horizontal,
+                        compact ? 12 : 16,
+                        horizontal,
+                        12,
+                      ),
+                      child: StudioTopBar(
+                        simulation: _simulation,
+                        comparisonView: _comparisonView,
+                        seedColor: _seedColor,
+                        seedController: _seedController,
+                        seedError: _seedError,
+                        isDarkMode: activeBrightness == Brightness.dark,
+                        onSimulationChanged: (value) =>
+                            setState(() => _simulation = value),
+                        onComparisonViewChanged: (value) =>
+                            setState(() => _comparisonView = value),
+                        onSelectPreset: _selectPreset,
+                        onSeedChanged: _applySeedInput,
+                        onSeedSubmitted: (value) =>
+                            _applySeedInput(value, validate: true),
+                        onShuffle: _shuffle,
+                        onOpenCode: () => _openCodeDialog(activeBrightness),
+                        onToggleDarkMode: () =>
+                            widget.onToggleDarkMode(activeBrightness),
+                        onShowGuide: _showGuideDialog,
+                      ),
+                    ),
+                  ),
+                ),
+                Divider(height: 1, color: palette.border),
+                Expanded(
+                  child: Center(
+                    child: ConstrainedBox(
+                      constraints: const BoxConstraints(maxWidth: 1180),
+                      child: ListView(
+                        padding: EdgeInsets.fromLTRB(
+                          horizontal,
+                          16,
+                          horizontal,
+                          36,
+                        ),
+                        children: [
+                          for (final kind in SpecimenKind.values)
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 16),
+                              child: ComparisonPairRow(
+                                kind: kind,
+                                original: original,
+                                simulated: simulated,
+                                simulation: _simulation,
+                                comparisonView: _comparisonView,
+                                onOpenCode: () =>
+                                    _openCodeDialog(activeBrightness),
+                              ),
+                            ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            );
+          },
         ),
       ),
     );
   }
 }
 
-class ThemeItem extends StatelessWidget {
-  const ThemeItem({Key? key}) : super(key: key);
+class _GuideRow extends StatelessWidget {
+  const _GuideRow({required this.title, required this.body});
+
+  final String title;
+  final String body;
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      color: Theme.of(context).colorScheme.surface,
-      elevation: 0,
-      child: const Row(
+    final palette = StudioPalette.of(context);
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 12),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Expanded(child: SocialPreview()),
-          Expanded(child: ChatPreview()),
+          Text(
+            title,
+            style: TextStyle(fontWeight: FontWeight.w600, color: palette.ink),
+          ),
+          const SizedBox(height: 2),
+          Text(
+            body,
+            style: TextStyle(
+              fontSize: 13,
+              height: 1.4,
+              color: palette.inkMuted,
+            ),
+          ),
         ],
       ),
     );

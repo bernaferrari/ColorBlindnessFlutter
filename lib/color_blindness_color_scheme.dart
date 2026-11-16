@@ -1,68 +1,72 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 import 'color_blindness.dart';
 
-/// Simulates color blindness for every color in a ColorScheme.
+/// Convenience simulation helper on any Material 3 [ColorScheme].
+extension ColorBlindnessColorSchemeExtension on ColorScheme {
+  /// Returns a copy of this scheme with every color role simulated under [type].
+  ColorScheme simulateColorBlindness(ColorBlindnessType type) =>
+      colorBlindnessColorScheme(this, type);
+}
+
+/// Simulates color blindness for every color role in a Material 3 [scheme].
 ///
-/// Input:
-/// ColorScheme: the ColorScheme you are using as your theme.
-/// ColorBlindnessType: the type to be used.
-///
-/// Output:
-/// a ColorScheme containing all colors modified.
+/// Returns [scheme] unchanged when [type] is [ColorBlindnessType.none].
 ColorScheme colorBlindnessColorScheme(
   ColorScheme scheme,
   ColorBlindnessType type,
 ) {
+  if (type == ColorBlindnessType.none) return scheme;
+
+  Color sim(Color color) => colorBlindness(color, type);
+
   return ColorScheme(
     brightness: scheme.brightness,
-    primary: colorBlindness(scheme.primary, type),
-    onPrimary: colorBlindness(scheme.onPrimary, type),
-    primaryContainer: colorBlindness(scheme.primaryContainer, type),
-    onPrimaryContainer: colorBlindness(scheme.onPrimaryContainer, type),
-    primaryFixed: colorBlindness(scheme.primaryFixed, type),
-    primaryFixedDim: colorBlindness(scheme.primaryFixedDim, type),
-    onPrimaryFixed: colorBlindness(scheme.onPrimaryFixed, type),
-    onPrimaryFixedVariant: colorBlindness(scheme.onPrimaryFixedVariant, type),
-    secondary: colorBlindness(scheme.secondary, type),
-    onSecondary: colorBlindness(scheme.onSecondary, type),
-    secondaryContainer: colorBlindness(scheme.secondaryContainer, type),
-    onSecondaryContainer: colorBlindness(scheme.onSecondaryContainer, type),
-    secondaryFixed: colorBlindness(scheme.secondaryFixed, type),
-    secondaryFixedDim: colorBlindness(scheme.secondaryFixedDim, type),
-    onSecondaryFixed: colorBlindness(scheme.onSecondaryFixed, type),
-    onSecondaryFixedVariant:
-        colorBlindness(scheme.onSecondaryFixedVariant, type),
-    tertiary: colorBlindness(scheme.tertiary, type),
-    onTertiary: colorBlindness(scheme.onTertiary, type),
-    tertiaryContainer: colorBlindness(scheme.tertiaryContainer, type),
-    onTertiaryContainer: colorBlindness(scheme.onTertiaryContainer, type),
-    tertiaryFixed: colorBlindness(scheme.tertiaryFixed, type),
-    tertiaryFixedDim: colorBlindness(scheme.tertiaryFixedDim, type),
-    onTertiaryFixed: colorBlindness(scheme.onTertiaryFixed, type),
-    onTertiaryFixedVariant: colorBlindness(scheme.onTertiaryFixedVariant, type),
-    error: colorBlindness(scheme.error, type),
-    onError: colorBlindness(scheme.onError, type),
-    errorContainer: colorBlindness(scheme.errorContainer, type),
-    onErrorContainer: colorBlindness(scheme.onErrorContainer, type),
-    surface: colorBlindness(scheme.surface, type),
-    onSurface: colorBlindness(scheme.onSurface, type),
-    surfaceDim: colorBlindness(scheme.surfaceDim, type),
-    surfaceBright: colorBlindness(scheme.surfaceBright, type),
-    surfaceContainerLowest: colorBlindness(scheme.surfaceContainerLowest, type),
-    surfaceContainerLow: colorBlindness(scheme.surfaceContainerLow, type),
-    surfaceContainer: colorBlindness(scheme.surfaceContainer, type),
-    surfaceContainerHigh: colorBlindness(scheme.surfaceContainerHigh, type),
-    surfaceContainerHighest:
-        colorBlindness(scheme.surfaceContainerHighest, type),
-    onSurfaceVariant: colorBlindness(scheme.onSurfaceVariant, type),
-    outline: colorBlindness(scheme.outline, type),
-    outlineVariant: colorBlindness(scheme.outlineVariant, type),
-    shadow: colorBlindness(scheme.shadow, type),
-    scrim: colorBlindness(scheme.scrim, type),
-    inverseSurface: colorBlindness(scheme.inverseSurface, type),
-    onInverseSurface: colorBlindness(scheme.onInverseSurface, type),
-    inversePrimary: colorBlindness(scheme.inversePrimary, type),
-    surfaceTint: colorBlindness(scheme.surfaceTint, type),
+    primary: sim(scheme.primary),
+    onPrimary: sim(scheme.onPrimary),
+    primaryContainer: sim(scheme.primaryContainer),
+    onPrimaryContainer: sim(scheme.onPrimaryContainer),
+    primaryFixed: sim(scheme.primaryFixed),
+    primaryFixedDim: sim(scheme.primaryFixedDim),
+    onPrimaryFixed: sim(scheme.onPrimaryFixed),
+    onPrimaryFixedVariant: sim(scheme.onPrimaryFixedVariant),
+    secondary: sim(scheme.secondary),
+    onSecondary: sim(scheme.onSecondary),
+    secondaryContainer: sim(scheme.secondaryContainer),
+    onSecondaryContainer: sim(scheme.onSecondaryContainer),
+    secondaryFixed: sim(scheme.secondaryFixed),
+    secondaryFixedDim: sim(scheme.secondaryFixedDim),
+    onSecondaryFixed: sim(scheme.onSecondaryFixed),
+    onSecondaryFixedVariant: sim(scheme.onSecondaryFixedVariant),
+    tertiary: sim(scheme.tertiary),
+    onTertiary: sim(scheme.onTertiary),
+    tertiaryContainer: sim(scheme.tertiaryContainer),
+    onTertiaryContainer: sim(scheme.onTertiaryContainer),
+    tertiaryFixed: sim(scheme.tertiaryFixed),
+    tertiaryFixedDim: sim(scheme.tertiaryFixedDim),
+    onTertiaryFixed: sim(scheme.onTertiaryFixed),
+    onTertiaryFixedVariant: sim(scheme.onTertiaryFixedVariant),
+    error: sim(scheme.error),
+    onError: sim(scheme.onError),
+    errorContainer: sim(scheme.errorContainer),
+    onErrorContainer: sim(scheme.onErrorContainer),
+    surface: sim(scheme.surface),
+    onSurface: sim(scheme.onSurface),
+    surfaceDim: sim(scheme.surfaceDim),
+    surfaceBright: sim(scheme.surfaceBright),
+    surfaceContainerLowest: sim(scheme.surfaceContainerLowest),
+    surfaceContainerLow: sim(scheme.surfaceContainerLow),
+    surfaceContainer: sim(scheme.surfaceContainer),
+    surfaceContainerHigh: sim(scheme.surfaceContainerHigh),
+    surfaceContainerHighest: sim(scheme.surfaceContainerHighest),
+    onSurfaceVariant: sim(scheme.onSurfaceVariant),
+    outline: sim(scheme.outline),
+    outlineVariant: sim(scheme.outlineVariant),
+    shadow: sim(scheme.shadow),
+    scrim: sim(scheme.scrim),
+    inverseSurface: sim(scheme.inverseSurface),
+    onInverseSurface: sim(scheme.onInverseSurface),
+    inversePrimary: sim(scheme.inversePrimary),
+    surfaceTint: sim(scheme.surfaceTint),
   );
 }
