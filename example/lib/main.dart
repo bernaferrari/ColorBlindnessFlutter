@@ -221,8 +221,8 @@ class _SimulatorHomeState extends State<SimulatorHome> {
                     body: 'Hover or tap the overlapping dot cluster on any card to fan out semantic accents and copy hex codes.',
                   ),
                   _GuideRow(
-                    title: 'Ready for CI checks',
-                    body: 'Open the code dialog to copy ready-to-use simulateColorBlindness and colorBlindnessAssertContrast snippets.',
+                    title: 'Ready-to-paste Dart',
+                    body: 'Open the code dialog to copy ready-to-use simulateColorBlindness theme snippets straight into your app.',
                   ),
                 ],
               ),

@@ -6,7 +6,7 @@
 
 <p align="center"><strong>Preview how every color in your app shifts under eight color vision deficiencies.</strong></p>
 
-<p align="center">Simulate color blindness across full Material 3 color schemes or single colors, compare live UI side by side, and fail CI builds if contrast drops below WCAG thresholds.</p>
+<p align="center">Simulate color blindness across full Material 3 color schemes or individual colors, and compare live interfaces side by side.</p>
 
 <p align="center"><a href="https://bernaferrari.github.io/ColorBlindnessFlutter/"><strong>Try the live demo ↗</strong></a></p>
 
@@ -34,18 +34,6 @@ ThemeData(
     seedColor: const Color(0xFF006C51),
   ).simulateColorBlindness(ColorBlindnessType.deuteranopia),
 )
-```
-
-Verify WCAG 2.1 contrast across all 9 modes in unit tests or inspect every role failure programmatically:
-
-```dart
-final scheme = ColorScheme.fromSeed(seedColor: const Color(0xFF006C51));
-
-// Throw in CI if primary/secondary contrast on surface drops below 4.5:1
-colorBlindnessAssertContrast(scheme, 4.5);
-
-// Or inspect all Material 3 role pairs (including onPrimary, onError, containers)
-final issues = colorBlindnessContrastIssues(scheme);
 ```
 
 Transform individual colors anytime:
