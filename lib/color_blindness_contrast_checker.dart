@@ -7,26 +7,15 @@ import 'src/color_space_math.dart';
 
 /// Describes a foreground/background pair that fell below [threshold] WCAG
 /// contrast under a simulated [ColorBlindnessType].
-class ContrastCheckIssue {
-  /// Creates an immutable [ContrastCheckIssue] diagnostic record.
-  const ContrastCheckIssue({
-    required this.type,
-    required this.foregroundRole,
-    required this.backgroundRole,
-    required this.foreground,
-    required this.background,
-    required this.contrast,
-    required this.threshold,
-  });
-
-  final ColorBlindnessType type;
-  final String foregroundRole;
-  final String backgroundRole;
-  final Color foreground;
-  final Color background;
-  final double contrast;
-  final double threshold;
-
+class const ContrastCheckIssue({
+  required final ColorBlindnessType type,
+  required final String foregroundRole,
+  required final String backgroundRole,
+  required final Color foreground,
+  required final Color background,
+  required final double contrast,
+  required final double threshold,
+}) {
   @override
   String toString() =>
       'Fail! For ${type.name}, $foregroundRole ($foreground) on $backgroundRole '

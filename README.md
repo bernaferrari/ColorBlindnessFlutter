@@ -1,10 +1,6 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/bernaferrari/ColorBlindnessFlutter/main/doc/brand/app-icon.svg" width="80" height="80" alt="Color Blindness on Flutter app icon">
+  <img src="https://raw.githubusercontent.com/bernaferrari/ColorBlindnessFlutter/main/doc/screenshots/hero.webp" width="100%" alt="Color Blindness on Flutter: a large eye whose iris is a color wheel, sweeping through normal vision, protanopia, deuteranopia, tritanopia and achromatopsia while three themed app screens change with it">
 </p>
-
-<h1 align="center">Color Blindness on Flutter</h1>
-
-<p align="center"><strong>Preview how every color in your app shifts under eight color vision deficiencies.</strong></p>
 
 <p align="center">Simulate color blindness across full Material 3 color schemes or individual colors, and compare live interfaces side by side.</p>
 

@@ -3,11 +3,8 @@ import 'package:material_ui/material_ui.dart';
 import '../studio_model.dart';
 
 /// Renders a Dart snippet with clean, selectable token syntax highlighting.
-class DartCodeView extends StatelessWidget {
-  const DartCodeView({super.key, required this.code});
-
-  final String code;
-
+class const DartCodeView({super.key, required final String code})
+    extends StatelessWidget {
   static final _tokenPattern = RegExp(
     r'0x[0-9a-fA-F]+'
     r"|'[^']*'"

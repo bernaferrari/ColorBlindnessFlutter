@@ -7,36 +7,24 @@ import '../studio_model.dart';
 import 'studio_controls.dart';
 
 /// Identifies each side-by-side Material 3 specimen shown in the comparison feed.
-enum SpecimenKind {
+enum SpecimenKind(final String title) {
   editorial('Design Journal'),
   player('Midnight Synth'),
   analytics('Weekly Focus'),
-  tasks('Release Checklist');
-
-  const SpecimenKind(this.title);
-  final String title;
+  tasks('Release Checklist'),
 }
 
 /// Renders one [SpecimenKind] comparing [original] and [simulated] schemes
 /// side by side with interruptible reveal transitions for [comparisonView].
-class ComparisonPairRow extends StatefulWidget {
-  const ComparisonPairRow({
-    super.key,
-    required this.kind,
-    required this.original,
-    required this.simulated,
-    required this.simulation,
-    required this.comparisonView,
-    required this.onOpenCode,
-  });
-
-  final SpecimenKind kind;
-  final ColorScheme original;
-  final ColorScheme simulated;
-  final ColorBlindnessType simulation;
-  final ComparisonView comparisonView;
-  final VoidCallback onOpenCode;
-
+class const ComparisonPairRow({
+  super.key,
+  required final SpecimenKind kind,
+  required final ColorScheme original,
+  required final ColorScheme simulated,
+  required final ColorBlindnessType simulation,
+  required final ComparisonView comparisonView,
+  required final VoidCallback onOpenCode,
+}) extends StatefulWidget {
   @override
   State<ComparisonPairRow> createState() => _ComparisonPairRowState();
 }
@@ -172,21 +160,13 @@ class _ComparisonPairRowState extends State<ComparisonPairRow>
   }
 }
 
-class _HorizontalRevealSlot extends StatelessWidget {
-  const _HorizontalRevealSlot({
-    required this.slotWidth,
-    required this.minLayoutWidth,
-    required this.factor,
-    required this.alignment,
-    required this.child,
-  });
-
-  final double slotWidth;
-  final double minLayoutWidth;
-  final double factor;
-  final Alignment alignment;
-  final Widget child;
-
+class const _HorizontalRevealSlot({
+  required final double slotWidth,
+  required final double minLayoutWidth,
+  required final double factor,
+  required final Alignment alignment,
+  required final Widget child,
+}) extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final layoutWidth = math.max(slotWidth, minLayoutWidth);
@@ -213,12 +193,10 @@ class _HorizontalRevealSlot extends StatelessWidget {
   }
 }
 
-class _VerticalRevealSlot extends StatelessWidget {
-  const _VerticalRevealSlot({required this.factor, required this.child});
-
-  final double factor;
-  final Widget child;
-
+class const _VerticalRevealSlot({
+  required final double factor,
+  required final Widget child,
+}) extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final scale = 0.96 + 0.04 * factor;
@@ -235,19 +213,12 @@ class _VerticalRevealSlot extends StatelessWidget {
   }
 }
 
-class _SpecimenCard extends StatelessWidget {
-  const _SpecimenCard({
-    required this.kind,
-    required this.laneLabel,
-    required this.scheme,
-    required this.onOpenCode,
-  });
-
-  final SpecimenKind kind;
-  final String laneLabel;
-  final ColorScheme scheme;
-  final VoidCallback onOpenCode;
-
+class const _SpecimenCard({
+  required final SpecimenKind kind,
+  required final String laneLabel,
+  required final ColorScheme scheme,
+  required final VoidCallback onOpenCode,
+}) extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isDark = scheme.brightness == Brightness.dark;
@@ -384,17 +355,11 @@ class _SpecimenCard extends StatelessWidget {
 }
 
 /// Specimen 0: Editorial article & reading card.
-class _EditorialSpecimen extends StatelessWidget {
-  const _EditorialSpecimen({
-    required this.scheme,
-    required this.surface,
-    required this.duration,
-  });
-
-  final ColorScheme scheme;
-  final Color surface;
-  final Duration duration;
-
+class const _EditorialSpecimen({
+  required final ColorScheme scheme,
+  required final Color surface,
+  required final Duration duration,
+}) extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final muted = scheme.onSurface.withValues(alpha: 0.68);
@@ -485,17 +450,11 @@ class _EditorialSpecimen extends StatelessWidget {
 }
 
 /// Specimen 1: Media / podcast player card with interactive gapped slider & controls.
-class _AudioPlayerSpecimen extends StatefulWidget {
-  const _AudioPlayerSpecimen({
-    required this.scheme,
-    required this.surface,
-    required this.duration,
-  });
-
-  final ColorScheme scheme;
-  final Color surface;
-  final Duration duration;
-
+class const _AudioPlayerSpecimen({
+  required final ColorScheme scheme,
+  required final Color surface,
+  required final Duration duration,
+}) extends StatefulWidget {
   @override
   State<_AudioPlayerSpecimen> createState() => _AudioPlayerSpecimenState();
 }
@@ -683,17 +642,11 @@ class _AudioPlayerSpecimenState extends State<_AudioPlayerSpecimen> {
 }
 
 /// Specimen 2: Weekly analytics & bar chart card.
-class _AnalyticsSpecimen extends StatelessWidget {
-  const _AnalyticsSpecimen({
-    required this.scheme,
-    required this.surface,
-    required this.duration,
-  });
-
-  final ColorScheme scheme;
-  final Color surface;
-  final Duration duration;
-
+class const _AnalyticsSpecimen({
+  required final ColorScheme scheme,
+  required final Color surface,
+  required final Duration duration,
+}) extends StatelessWidget {
   static const _bars = [
     ('M', 0.48),
     ('T', 0.65),
@@ -817,17 +770,11 @@ class _AnalyticsSpecimen extends StatelessWidget {
 }
 
 /// Specimen 3: Collaborative sprint tasks card.
-class _TasksSpecimen extends StatelessWidget {
-  const _TasksSpecimen({
-    required this.scheme,
-    required this.surface,
-    required this.duration,
-  });
-
-  final ColorScheme scheme;
-  final Color surface;
-  final Duration duration;
-
+class const _TasksSpecimen({
+  required final ColorScheme scheme,
+  required final Color surface,
+  required final Duration duration,
+}) extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final muted = scheme.onSurface.withValues(alpha: 0.68);
@@ -912,19 +859,12 @@ class _TasksSpecimen extends StatelessWidget {
   }
 }
 
-class _TaskLine extends StatelessWidget {
-  const _TaskLine({
-    required this.title,
-    required this.done,
-    required this.scheme,
-    this.badge,
-  });
-
-  final String title;
-  final bool done;
-  final ColorScheme scheme;
-  final String? badge;
-
+class const _TaskLine({
+  required final String title,
+  required final bool done,
+  required final ColorScheme scheme,
+  final String? badge,
+}) extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final muted = scheme.onSurface.withValues(alpha: 0.56);
@@ -968,13 +908,11 @@ class _TaskLine extends StatelessWidget {
   }
 }
 
-class _MiniAvatar extends StatelessWidget {
-  const _MiniAvatar({required this.text, required this.bg, required this.fg});
-
-  final String text;
-  final Color bg;
-  final Color fg;
-
+class const _MiniAvatar({
+  required final String text,
+  required final Color bg,
+  required final Color fg,
+}) extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -990,19 +928,12 @@ class _MiniAvatar extends StatelessWidget {
   }
 }
 
-class _SpecimenShell extends StatelessWidget {
-  const _SpecimenShell({
-    required this.surface,
-    required this.borderColor,
-    required this.duration,
-    required this.child,
-  });
-
-  final Color surface;
-  final Color borderColor;
-  final Duration duration;
-  final Widget child;
-
+class const _SpecimenShell({
+  required final Color surface,
+  required final Color borderColor,
+  required final Duration duration,
+  required final Widget child,
+}) extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AnimatedContainer(
@@ -1020,13 +951,11 @@ class _SpecimenShell extends StatelessWidget {
   }
 }
 
-class _PillTag extends StatelessWidget {
-  const _PillTag({required this.label, required this.bg, required this.fg});
-
-  final String label;
-  final Color bg;
-  final Color fg;
-
+class const _PillTag({
+  required final String label,
+  required final Color bg,
+  required final Color fg,
+}) extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -1043,12 +972,10 @@ class _PillTag extends StatelessWidget {
   }
 }
 
-class _PaletteDots extends StatefulWidget {
-  const _PaletteDots({required this.tokens, required this.ringColor});
-
-  final List<ColorToken> tokens;
-  final Color ringColor;
-
+class const _PaletteDots({
+  required final List<ColorToken> tokens,
+  required final Color ringColor,
+}) extends StatefulWidget {
   @override
   State<_PaletteDots> createState() => _PaletteDotsState();
 }
@@ -1119,19 +1046,12 @@ class _PaletteDotsState extends State<_PaletteDots> {
   }
 }
 
-class _MiniActionIcon extends StatefulWidget {
-  const _MiniActionIcon({
-    required this.icon,
-    required this.tooltip,
-    required this.ink,
-    required this.onTap,
-  });
-
-  final IconData icon;
-  final String tooltip;
-  final Color ink;
-  final VoidCallback onTap;
-
+class const _MiniActionIcon({
+  required final IconData icon,
+  required final String tooltip,
+  required final Color ink,
+  required final VoidCallback onTap,
+}) extends StatefulWidget {
   @override
   State<_MiniActionIcon> createState() => _MiniActionIconState();
 }

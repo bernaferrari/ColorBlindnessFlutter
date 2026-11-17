@@ -8,9 +8,7 @@ import 'widgets/studio_controls.dart';
 
 void main() => runApp(const ColorBlindnessExampleApp());
 
-class ColorBlindnessExampleApp extends StatefulWidget {
-  const ColorBlindnessExampleApp({super.key});
-
+class const ColorBlindnessExampleApp({super.key}) extends StatefulWidget {
   @override
   State<ColorBlindnessExampleApp> createState() =>
       _ColorBlindnessExampleAppState();
@@ -54,11 +52,10 @@ class _ColorBlindnessExampleAppState extends State<ColorBlindnessExampleApp> {
   }
 }
 
-class SimulatorHome extends StatefulWidget {
-  const SimulatorHome({super.key, required this.onToggleDarkMode});
-
-  final ValueChanged<Brightness> onToggleDarkMode;
-
+class const SimulatorHome({
+  super.key,
+  required final ValueChanged<Brightness> onToggleDarkMode,
+}) extends StatefulWidget {
   @override
   State<SimulatorHome> createState() => _SimulatorHomeState();
 }
@@ -337,12 +334,8 @@ class _SimulatorHomeState extends State<SimulatorHome> {
   }
 }
 
-class _GuideRow extends StatelessWidget {
-  const _GuideRow({required this.title, required this.body});
-
-  final String title;
-  final String body;
-
+class const _GuideRow({required final String title, required final String body})
+    extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final palette = StudioPalette.of(context);

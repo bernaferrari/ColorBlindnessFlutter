@@ -59,7 +59,13 @@ export 'package:color_blindness/color_blindness_contrast_checker.dart';
 /// Color vision deficiency simulation modes.
 ///
 /// Includes [none] as an identity pass-through convenience.
-enum ColorBlindnessType {
+enum ColorBlindnessType(
+  /// Human-readable display name.
+  final String label,
+
+  /// Concise summary of the color vision deficiency.
+  final String shortDescription,
+) {
   /// Standard trichromatic vision (no transformation applied).
   none('Normal vision', 'Full trichromatic vision'),
 
@@ -85,15 +91,7 @@ enum ColorBlindnessType {
   achromatopsia('Achromatopsia', 'Complete monochromacy'),
 
   /// Partial monochromacy (severely muted color perception across all channels).
-  achromatomaly('Achromatomaly', 'Partial monochromacy');
-
-  const ColorBlindnessType(this.label, this.shortDescription);
-
-  /// Human-readable display name.
-  final String label;
-
-  /// Concise summary of the color vision deficiency.
-  final String shortDescription;
+  achromatomaly('Achromatomaly', 'Partial monochromacy'),
 }
 
 /// Convenience simulation helper on any Flutter [Color].

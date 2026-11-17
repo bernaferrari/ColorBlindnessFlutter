@@ -3,25 +3,15 @@ import 'package:material_ui/material_ui.dart';
 import 'package:color_blindness/color_blindness.dart';
 
 /// Archival warm-paper and obsidian studio palettes inspired by Chroma Folio.
-class StudioPalette {
-  const StudioPalette({
-    required this.paper,
-    required this.surface,
-    required this.track,
-    required this.activePill,
-    required this.border,
-    required this.ink,
-    required this.inkMuted,
-  });
-
-  final Color paper;
-  final Color surface;
-  final Color track;
-  final Color activePill;
-  final Color border;
-  final Color ink;
-  final Color inkMuted;
-
+class const StudioPalette({
+  required final Color paper,
+  required final Color surface,
+  required final Color track,
+  required final Color activePill,
+  required final Color border,
+  required final Color ink,
+  required final Color inkMuted,
+}) {
   static const light = StudioPalette(
     paper: Color(0xFFF6F4EE),
     surface: Color(0xFFFCFAF5),
@@ -53,22 +43,17 @@ abstract final class StudioColors {
 }
 
 /// Filter options for comparing Original and Simulated specimens.
-enum ComparisonView {
+enum ComparisonView(final String label) {
   both('Compare'),
   original('Original'),
-  simulated('Simulated');
-
-  const ComparisonView(this.label);
-  final String label;
+  simulated('Simulated'),
 }
 
 /// Curated stress-test seeds for red-green and blue-yellow vision deficiencies.
-class SeedPreset {
-  const SeedPreset({required this.name, required this.color});
-
-  final String name;
-  final Color color;
-}
+class const SeedPreset({
+  required final String name,
+  required final Color color,
+});
 
 /// Vibrant Material 3 seed presets showcased as inline color wells.
 const seedPresets = <SeedPreset>[
@@ -81,12 +66,10 @@ const seedPresets = <SeedPreset>[
 ];
 
 /// Describes one color role in a swatch cluster.
-class ColorToken {
-  const ColorToken({required this.label, required this.color});
-
-  final String label;
-  final Color color;
-}
+class const ColorToken({
+  required final String label,
+  required final Color color,
+});
 
 /// Returns the 6 key role swatches for an accent dot cluster.
 List<ColorToken> dotSwatchesFor(ColorScheme scheme) => [

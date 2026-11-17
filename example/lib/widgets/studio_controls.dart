@@ -11,42 +11,24 @@ const kStudioEaseInOut = Cubic(0.77, 0.0, 0.175, 1.0);
 
 /// Pinned header with editorial title, studio toggles, simulation picker,
 /// seed hex control, and quick actions.
-class StudioTopBar extends StatelessWidget {
-  const StudioTopBar({
-    super.key,
-    required this.simulation,
-    required this.comparisonView,
-    required this.seedColor,
-    required this.seedController,
-    required this.seedError,
-    required this.isDarkMode,
-    required this.onSimulationChanged,
-    required this.onComparisonViewChanged,
-    required this.onSelectPreset,
-    required this.onSeedChanged,
-    required this.onSeedSubmitted,
-    required this.onShuffle,
-    required this.onOpenCode,
-    required this.onToggleDarkMode,
-    required this.onShowGuide,
-  });
-
-  final ColorBlindnessType simulation;
-  final ComparisonView comparisonView;
-  final Color seedColor;
-  final TextEditingController seedController;
-  final String? seedError;
-  final bool isDarkMode;
-  final ValueChanged<ColorBlindnessType> onSimulationChanged;
-  final ValueChanged<ComparisonView> onComparisonViewChanged;
-  final ValueChanged<Color> onSelectPreset;
-  final ValueChanged<String> onSeedChanged;
-  final ValueChanged<String> onSeedSubmitted;
-  final VoidCallback onShuffle;
-  final VoidCallback onOpenCode;
-  final VoidCallback onToggleDarkMode;
-  final VoidCallback onShowGuide;
-
+class const StudioTopBar({
+  super.key,
+  required final ColorBlindnessType simulation,
+  required final ComparisonView comparisonView,
+  required final Color seedColor,
+  required final TextEditingController seedController,
+  required final String? seedError,
+  required final bool isDarkMode,
+  required final ValueChanged<ColorBlindnessType> onSimulationChanged,
+  required final ValueChanged<ComparisonView> onComparisonViewChanged,
+  required final ValueChanged<Color> onSelectPreset,
+  required final ValueChanged<String> onSeedChanged,
+  required final ValueChanged<String> onSeedSubmitted,
+  required final VoidCallback onShuffle,
+  required final VoidCallback onOpenCode,
+  required final VoidCallback onToggleDarkMode,
+  required final VoidCallback onShowGuide,
+}) extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final palette = StudioPalette.of(context);
@@ -195,12 +177,10 @@ class StudioTopBar extends StatelessWidget {
   }
 }
 
-class _VisionMenuPill extends StatelessWidget {
-  const _VisionMenuPill({required this.value, required this.onChanged});
-
-  final ColorBlindnessType value;
-  final ValueChanged<ColorBlindnessType> onChanged;
-
+class const _VisionMenuPill({
+  required final ColorBlindnessType value,
+  required final ValueChanged<ColorBlindnessType> onChanged,
+}) extends StatelessWidget {
   static const _cycleTypes = <ColorBlindnessType>[
     ColorBlindnessType.protanomaly,
     ColorBlindnessType.deuteranomaly,
@@ -362,17 +342,11 @@ class _VisionMenuPill extends StatelessWidget {
   }
 }
 
-class _StepperButton extends StatefulWidget {
-  const _StepperButton({
-    required this.icon,
-    required this.tooltip,
-    required this.onTap,
-  });
-
-  final IconData icon;
-  final String tooltip;
-  final VoidCallback onTap;
-
+class const _StepperButton({
+  required final IconData icon,
+  required final String tooltip,
+  required final VoidCallback onTap,
+}) extends StatefulWidget {
   @override
   State<_StepperButton> createState() => _StepperButtonState();
 }
@@ -426,23 +400,14 @@ class _StepperButtonState extends State<_StepperButton> {
   }
 }
 
-class _SeedControlPill extends StatelessWidget {
-  const _SeedControlPill({
-    required this.seedColor,
-    required this.controller,
-    required this.errorText,
-    required this.onSelectPreset,
-    required this.onChanged,
-    required this.onSubmitted,
-  });
-
-  final Color seedColor;
-  final TextEditingController controller;
-  final String? errorText;
-  final ValueChanged<Color> onSelectPreset;
-  final ValueChanged<String> onChanged;
-  final ValueChanged<String> onSubmitted;
-
+class const _SeedControlPill({
+  required final Color seedColor,
+  required final TextEditingController controller,
+  required final String? errorText,
+  required final ValueChanged<Color> onSelectPreset,
+  required final ValueChanged<String> onChanged,
+  required final ValueChanged<String> onSubmitted,
+}) extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final palette = StudioPalette.of(context);
@@ -533,17 +498,11 @@ class _SeedControlPill extends StatelessWidget {
   }
 }
 
-class _InlineColorDot extends StatefulWidget {
-  const _InlineColorDot({
-    required this.preset,
-    required this.selected,
-    required this.onTap,
-  });
-
-  final SeedPreset preset;
-  final bool selected;
-  final VoidCallback onTap;
-
+class const _InlineColorDot({
+  required final SeedPreset preset,
+  required final bool selected,
+  required final VoidCallback onTap,
+}) extends StatefulWidget {
   @override
   State<_InlineColorDot> createState() => _InlineColorDotState();
 }
@@ -608,11 +567,8 @@ class _InlineColorDotState extends State<_InlineColorDot> {
   }
 }
 
-class _ShufflePillButton extends StatefulWidget {
-  const _ShufflePillButton({required this.onTap});
-
-  final VoidCallback onTap;
-
+class const _ShufflePillButton({required final VoidCallback onTap})
+    extends StatefulWidget {
   @override
   State<_ShufflePillButton> createState() => _ShufflePillButtonState();
 }
@@ -690,18 +646,12 @@ class _ShufflePillButtonState extends State<_ShufflePillButton> {
 }
 
 /// Sleek segmented pill control styled after Chroma Folio.
-class StudioPillSelector<T> extends StatelessWidget {
-  const StudioPillSelector({
-    super.key,
-    required this.value,
-    required this.options,
-    required this.onChanged,
-  });
-
-  final T value;
-  final List<({T value, String label})> options;
-  final ValueChanged<T> onChanged;
-
+class const StudioPillSelector<T>({
+  super.key,
+  required final T value,
+  required final List<({T value, String label})> options,
+  required final ValueChanged<T> onChanged,
+}) extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final palette = StudioPalette.of(context);
@@ -775,21 +725,15 @@ class StudioPillSelector<T> extends StatelessWidget {
 }
 
 /// Quiet circular icon button matching Chroma Folio's top-bar buttons.
-class StudioIconButton extends StatefulWidget {
-  const StudioIconButton({
-    super.key,
-    this.icon,
-    this.iconBuilder,
-    required this.tooltip,
-    required this.onTap,
-    this.ink,
-  }) : assert(icon != null || iconBuilder != null);
-
-  final IconData? icon;
-  final Widget Function(Color color)? iconBuilder;
-  final String tooltip;
-  final VoidCallback? onTap;
-  final Color? ink;
+class const StudioIconButton({
+  super.key,
+  final IconData? icon,
+  final Widget Function(Color color)? iconBuilder,
+  required final String tooltip,
+  required final VoidCallback? onTap,
+  final Color? ink,
+}) extends StatefulWidget {
+  this : assert(icon != null || iconBuilder != null);
 
   @override
   State<StudioIconButton> createState() => _StudioIconButtonState();
@@ -855,12 +799,10 @@ class _StudioIconButtonState extends State<StudioIconButton> {
   }
 }
 
-class _GitHubMark extends StatelessWidget {
-  const _GitHubMark({required this.color, required this.size});
-
-  final Color color;
-  final double size;
-
+class const _GitHubMark({
+  required final Color color,
+  required final double size,
+}) extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomPaint(
@@ -870,11 +812,7 @@ class _GitHubMark extends StatelessWidget {
   }
 }
 
-class _GitHubMarkPainter extends CustomPainter {
-  const _GitHubMarkPainter(this.color);
-
-  final Color color;
-
+class const _GitHubMarkPainter(final Color color) extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final s = size.width / 24.0;
